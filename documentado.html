@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Stopots</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #00aaff; /*muda a cor da tela de fundo*/
+        }
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            padding: 10px 20px;
+            background-color: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .login-container button:hover {
+            background-color: #54a9d3;
+        }
+        .game-container {
+            display: none;
+            text-align: center; /* Centraliza o conteúdo */
+        }
+        .game-container h2 {
+            margin-top: 20px;
+        }
+        .game-container .button-container {
+            margin-top: 20px;
+        }
+        .game-container .button-container button {
+            background-color: #ff6600; /* Laranja */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .game-container .button-container button:hover {
+            background-color: #e25800; /* Laranja mais escuro ao passar o mouse */
+        }
+        .game-container .columns {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .game-container .column {
+            width: 200px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Usuário">
+        <input type="password" id="password" placeholder="Senha">
+        <button onclick="login()">Entrar</button>
+    </div>
+ 
+    <div id="game-container" class="game-container">/
+        <h2>Tela de Sorteio da Letra</h2>
+        <div class="button-container">
+            <button onclick="sortearLetra()">Sortear Letra</button>
+        </div>
+        <p id="letraSorteada"></p>
+ 
+        <h2>Colunas e Regras</h2>
+        <div class="columns">
+            <div class="column">
+                <h3>Nome</h3>
+                <input type="text" id="nome" placeholder="Digite um nome">
+                <button onclick="verificarPalavra('nome')">Verificar</button>
+            </div>
+            <div class="column">
+                <h3>CEP</h3>
+                <input type="text" id="cep" placeholder="Digite um CEP">
+                <button onclick="verificarPalavra('cep')">Verificar</button>
+            </div>
+            <div class="column">
+                <h3>Minha Sogra É</h3>
+                <input type="text" id="minhaSogra" placeholder="Digite algo sobre sua sogra">
+                <button onclick="verificarPalavra('minhaSogra')">Verificar</button>
+            </div>
+            <div class="column">
+                <h3>Fruta</h3>
+                <input type="text" id="fruta" placeholder="Digite uma fruta">
+                <button onclick="verificarPalavra('fruta')">Verificar</button>
+            </div>
+            <div class="column">
+                <h3>Carro</h3>
+                <input type="text" id="carro" placeholder="Digite um carro">
+                <button onclick="verificarPalavra('carro')">Verificar</button>
+            </div>
+            <div class="column">
+                <h3>Cor</h3>
+                <input type="text" id="cor" placeholder="Digite uma cor">
+                <button onclick="verificarPalavra('cor')">Verificar</button>
+            </div>
+        </div>
+ 
+        <h2>Pontuação</h2>
+        <p id="pontuacao">0</p>
+    </div>
+ 
+    <script>
+        var pontuacao = 0; // Variável para armazenar a pontuação
+ 
+        function login() { // funcao de login 
+            var username = document.getElementById("username").value;//variavel do username
+            var password = document.getElementById("password").value;//variavel da senha
+            var loginContainer = document.getElementById("login-container");
+            var gameContainer = document.getElementById("game-container");
+ 
+            if (username === "enzo" && password === "12345") {
+                // Login correto, mostrar a tela do jogo e ocultar a tela de login
+                loginContainer.style.display = "none";//local do login
+                gameContainer.style.display = "block";
+            } else {
+                alert("Usuário ou senha incorretos. Tente novamente.");//caso voce erre a senha ou o usuario ira aparecer que esta incorreto atraves desse codigo
+            }
+        }
+ 
+        function sortearLetra() { //funcao para fazer o sorteio das letras
+            var letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";//quantidade de letras
+            var letraSorteada = letras.charAt(Math.floor(Math.random() * letras.length));//sorteia de modo aleatorio as letras da variavel
+            document.getElementById("letraSorteada").innerText = "Letra sorteada: " + letraSorteada;//documentacao da letra sorteada
+        }
+ 
+        // Função para verificar se a palavra começa com a letra sorteada e atualizar a pontuação
+        function verificarPalavra(campoId) {
+            var letraSorteada = document.getElementById("letraSorteada").innerText.split(": ")[1];//sistema de pontuacao
+            var palavra = document.getElementById(campoId).value.trim();
+            if (palavra.toUpperCase().startsWith(letraSorteada)) {// se voce acertar voce ganha um ponto e mostra essa mensagem
+                pontuacao++; // Incrementa a pontuação
+                alert("Parabéns! Você ganhou 1 ponto.");//mensagem caso voce acerta a letra e a palavra
+                document.getElementById("pontuacao").innerText = pontuacao; // Atualiza a pontuação na tela
+                // Limpa o campo de entrada após acertar
+                document.getElementById(campoId).value = "";//id do campo
+            } else {
+                alert("A palavra não começa com a letra sorteada. Tente novamente.");//caso voce erre mostrara essa mensagem
+            }
+        }
+    </script>
+</body>
+</html>
+ 
